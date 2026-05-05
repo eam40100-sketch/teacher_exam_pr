@@ -1,458 +1,441 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.3">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'PingFang TC'; color: #171e2d; -webkit-text-stroke: #171e2d}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'PingFang TC'; color: #171e2d; -webkit-text-stroke: #171e2d; min-height: 17.0px}
-    span.s1 {font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教檢模擬考題生成系統</title>
+    <!-- 引入 Noto Sans TC 字體讓排版更具現代感與可讀性 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            font-family: 'Noto Sans TC', 'PingFang TC', 'Heiti TC', sans-serif; 
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+            color: #1e293b;
+            min-height: 100vh;
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 8px;
+            border: 2px solid #f8fafc;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="zh-TW"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;教檢模擬考題生成系統&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- 引入 Noto Sans TC 字體讓排版更具現代感與可讀性 --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;display=swap" rel="stylesheet"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- React &amp; ReactDOM --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Babel for JSX --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Tailwind CSS --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body {<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>font-family: 'Noto Sans TC', 'PingFang TC', 'Heiti TC', sans-serif;<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>color: #1e293b;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>min-height: 100vh;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>width: 10px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar-track {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: transparent;<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar-thumb {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: #cbd5e1;<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 8px;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 2px solid #f8fafc;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar-thumb:hover {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: #94a3b8;<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.glass-card {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>background: rgba(255, 255, 255, 0.7);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>backdrop-filter: blur(12px);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>-webkit-backdrop-filter: blur(12px);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid rgba(255, 255, 255, 0.5);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes fadeIn {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>from { opacity: 0; transform: translateY(10px); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: translateY(0); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.animate-fade-in-up {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>animation: fadeIn 0.5s ease-out forwards;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const { useState, useEffect, useRef } = React;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- SVG Icons ---</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ClockIcon = () =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;&lt;circle cx="12" cy="12" r="10"/&gt;&lt;polyline points="12 6 12 12 16 14"/&gt;&lt;/svg&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const RefreshIcon = ({ className }) =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}&gt;&lt;path d="M21 2v6h-6"/&gt;&lt;path d="M3 12a9 9 0 1 0 2.81-6.63L3 8"/&gt;&lt;path d="M3 8V2h6"/&gt;&lt;/svg&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const CheckCircleIcon = () =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;&lt;path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/&gt;&lt;polyline points="22 4 12 14.01 9 11.01"/&gt;&lt;/svg&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const XCircleIcon = () =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;&lt;circle cx="12" cy="12" r="10"/&gt;&lt;line x1="15" y1="9" x2="9" y2="15"/&gt;&lt;line x1="9" y1="9" x2="15" y2="15"/&gt;&lt;/svg&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const SettingsIcon = () =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/&gt;&lt;/svg&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- API Key Modal Component ---</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const ApiKeyModal = ({ isOpen, onClose, apiKey, setApiKey }) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [inputValue, setInputValue] = useState(apiKey);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!isOpen) return null;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleSave = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setApiKey(inputValue);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>localStorage.setItem('gemini_api_key', inputValue);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>onClose();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full border border-slate-200"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="flex items-center justify-between mb-6"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h3 className="text-2xl font-bold text-slate-800 flex items-center"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;span className="mr-2 text-indigo-500"&gt;&lt;SettingsIcon /&gt;&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>API 設定</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors"&gt;✕&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;p className="text-slate-600 mb-6 text-sm leading-relaxed"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>本系統使用 Google Gemini API 進行命題。請前往 &lt;a href="https://aistudio.google.com/app/apikey" target="_blank" className="text-blue-600 underline hover:text-blue-800"&gt;Google AI Studio&lt;/a&gt; 免費申請 API Key 並貼於下方。</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>您的 Key 將儲存在本機瀏覽器，不會傳送給開發者。</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="mb-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2"&gt;Gemini API Key&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;input<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>type="password"<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl focus:border-indigo-500 focus:bg-white outline-none transition-all font-mono text-sm"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>placeholder="貼上您的 API Key..."</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>value={inputValue}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>onChange={(e) =&gt; setInputValue(e.target.value)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>/&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="flex gap-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>onClick={handleSave}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>className="flex-1 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-lg transition-all"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>儲存設定</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- Countdown Component ---</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const Countdown = ({ onOpenSettings }) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>useEffect(() =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const calculateTimeLeft = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const now = new Date();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>let targetDate = new Date(now.getFullYear(), 5, 14);<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>if (now &gt; targetDate) targetDate = new Date(now.getFullYear() + 1, 5, 14);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const difference = targetDate - now;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>if (difference &gt; 0) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>setTimeLeft({</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>days: Math.floor(difference / (1000 * 60 * 60 * 24)),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>hours: Math.floor((difference / (1000 * 60 * 60)) % 24),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>minutes: Math.floor((difference / 1000 / 60) % 60),</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>seconds: Math.floor((difference / 1000) % 60)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>calculateTimeLeft();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const timer = setInterval(calculateTimeLeft, 1000);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return () =&gt; clearInterval(timer);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}, []);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div className="bg-slate-900/95 backdrop-blur-md text-white py-3 px-4 shadow-lg flex items-center justify-between sticky top-0 z-50 border-b border-slate-700"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="flex items-center space-x-2 text-indigo-300"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;ClockIcon /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;span className="hidden sm:inline font-bold tracking-wider text-xs"&gt;距離 6/14 考試&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="flex space-x-2 sm:space-x-3 text-lg font-mono font-bold"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="flex flex-col items-center"&gt;&lt;span className="bg-slate-800 border border-slate-700 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm"&gt;{timeLeft.days}&lt;/span&gt;&lt;span className="text-[9px] text-slate-400 mt-0.5"&gt;天&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="flex flex-col items-center"&gt;&lt;span className="bg-slate-800 border border-slate-700 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm"&gt;{String(timeLeft.hours).padStart(2, '0')}&lt;/span&gt;&lt;span className="text-[9px] text-slate-400 mt-0.5"&gt;時&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="flex flex-col items-center"&gt;&lt;span className="bg-slate-800 border border-slate-700 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm"&gt;{String(timeLeft.minutes).padStart(2, '0')}&lt;/span&gt;&lt;span className="text-[9px] text-slate-400 mt-0.5"&gt;分&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="flex flex-col items-center"&gt;&lt;span className="text-indigo-400 bg-slate-800 border border-indigo-900/50 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm"&gt;{String(timeLeft.seconds).padStart(2, '0')}&lt;/span&gt;&lt;span className="text-[9px] text-indigo-400/70 mt-0.5"&gt;秒&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>onClick={onOpenSettings}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>className="p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400 hover:text-white"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>title="API 設定"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;SettingsIcon /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- 科目設定 ---</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const SUBJECTS = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>development: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>id: 'development',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>name: '國民小學：學習者發展與適性輔導',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>prompt: `... (Prompt Same as Previous) ...`</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>philosophy: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>id: 'philosophy',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>name: '國民小學：教育理念與實務',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>prompt: `... (Prompt Same as Previous) ...`</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>curriculum: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>id: 'curriculum',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>name: '國民小學：課程教學與評量',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>prompt: `... (Prompt Same as Previous) ...`</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- Main Application ---</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const App = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [selectedSubjectId, setSelectedSubjectId] = useState('development');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [examData, setExamData] = useState(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [isLoading, setIsLoading] = useState(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [error, setError] = useState(null);</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// --- API Key 狀態 ---</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || "");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [isSettingsOpen, setIsSettingsOpen] = useState(false);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [userAnswers, setUserAnswers] = useState(Array(10).fill(null));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [isSubmitted, setIsSubmitted] = useState(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [compUserInputs, setCompUserInputs] = useState({ q1: "", q2: "" });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [isGrading, setIsGrading] = useState(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [compGradeResult, setCompGradeResult] = useState(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [mnemonics, setMnemonics] = useState({});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [generatingMnemonics, setGeneratingMnemonics] = useState({});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [studyGuide, setStudyGuide] = useState(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [isGeneratingGuide, setIsGeneratingGuide] = useState(false);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// 通用 Gemini API 呼叫函式</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const callGeminiAPI = async (payload) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (!apiKey) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setIsSettingsOpen(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>throw new Error("請先設定 Gemini API Key。");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const delays = [1000, 2000, 4000, 8000, 16000];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>for (let i = 0; i &lt; 5; i++) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>const response = await fetch(url, {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>method: "POST",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>headers: { "Content-Type": "application/json" },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>body: JSON.stringify(payload)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>if (response.status === 403 || response.status === 401) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>setIsSettingsOpen(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>throw new Error("API Key 無效或無權限，請重新檢查。");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>if (!response.ok) throw new Error(`API Error: ${response.status}`);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>const data = await response.json();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>if (!resultText) throw new Error("無效的回傳格式");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>return resultText;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>} catch (err) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>if (i === 4 || err.message.includes("API Key")) throw err;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>await new Promise(res =&gt; setTimeout(res, delays[i]));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const generateExam = async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (!apiKey) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setIsSettingsOpen(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setIsLoading(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setError(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setExamData(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setUserAnswers(Array(10).fill(null));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setIsSubmitted(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setCompUserInputs({ q1: "", q2: "" });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setCompGradeResult(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setMnemonics({});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setGeneratingMnemonics({});</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setStudyGuide(null);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const currentSubject = SUBJECTS[selectedSubjectId];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const payload = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>systemInstruction: { parts: [{ text: currentSubject.prompt }] },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>contents: [{ parts: [{ text: `請立刻生成一份包含 10 題選擇題與 1 題綜合題的教檢模擬試卷（科目：${currentSubject.name}）。請依照指定的 JSON Schema 格式回傳。` }] }],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>generationConfig: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>responseMimeType: "application/json",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>responseSchema: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>type: "OBJECT",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>properties: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>mcqs: { type: "ARRAY", items: { type: "OBJECT", properties: { question: { type: "STRING" }, options: { type: "ARRAY", items: { type: "STRING" } }, correctAnswerIndex: { type: "INTEGER" }, explanation: { type: "STRING" } }, required: ["question", "options", "correctAnswerIndex", "explanation"] } },</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>comprehensive: { type: "OBJECT", properties: { scenario: { type: "STRING" }, subQuestion1: { type: "STRING" }, subQuestion2: { type: "STRING" }, answer1: { type: "STRING" }, answer2: { type: "STRING" } }, required: ["scenario", "subQuestion1", "subQuestion2", "answer1", "answer2"] }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>required: ["mcqs", "comprehensive"]</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const resultText = await callGeminiAPI(payload);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setExamData(JSON.parse(resultText));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} catch (err) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setError(err.message);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} finally { setIsLoading(false); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleSubmit = () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const unanswered = userAnswers.filter(a =&gt; a === null).length;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (unanswered &gt; 0 &amp;&amp; !window.confirm(`還有 ${unanswered} 題選擇題未作答，確定要繳交嗎？`)) return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setIsSubmitted(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; window.scrollTo({ top: 0, behavior: 'smooth' }), 100);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleGenerateMnemonic = async (qIndex) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setGeneratingMnemonics(prev =&gt; ({ ...prev, [qIndex]: true }));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const q = examData.mcqs[qIndex];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const currentSubject = SUBJECTS[selectedSubjectId];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const payload = { contents: [{ parts: [{ text: `這是一題台灣教檢「${currentSubject.name}」的考題：\n題目：${q.question}\n解答與解析：${q.explanation}\n\n請設計一個「✨ 簡單直白的記憶口訣」或「生動的聯想記憶法」，50-100 字內幫助考生記憶。` }] }] };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const resultText = await callGeminiAPI(payload);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setMnemonics(prev =&gt; ({ ...prev, [qIndex]: resultText }));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} catch (err) { console.error(err); } finally { setGeneratingMnemonics(prev =&gt; ({ ...prev, [qIndex]: false })); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleGradeComp = async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (!compUserInputs.q1.trim() &amp;&amp; !compUserInputs.q2.trim()) return alert("請先填寫作答內容。");</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setIsGrading(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const comp = examData.comprehensive;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const gradingPrompt = `你是一位嚴格的台灣教檢閱卷委員。請針對「子題一」與「子題二」分別評分（滿分10分）。\n情境：${comp.scenario}\n子題一題目：${comp.subQuestion1}\n考生作答：${compUserInputs.q1}\n標準答案：${comp.answer1}\n\n子題二題目：${comp.subQuestion2}\n考生作答：${compUserInputs.q2}\n標準答案：${comp.answer2}\n請以 JSON 回傳分開的評分 q1, q2 (score, praise, critique, suggestion)。`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const payload = { contents: [{ parts: [{ text: gradingPrompt }] }], generationConfig: { responseMimeType: "application/json" } };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const resultText = await callGeminiAPI(payload);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setCompGradeResult(JSON.parse(resultText));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} catch (err) { console.error(err); } finally { setIsGrading(false); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleGenerateStudyGuide = async () =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setIsGeneratingGuide(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let correctCount = userAnswers.filter((a, i) =&gt; a === examData.mcqs[i].correctAnswerIndex).length;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let wrongExps = examData.mcqs.filter((q, i) =&gt; userAnswers[i] !== q.correctAnswerIndex).map(q =&gt; q.explanation);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const guidePrompt = `根據表現提供學習指引 JSON：\n選擇題對：${correctCount}/10\n錯題概念：${wrongExps.join('|')}\n綜合題作答：${compUserInputs.q1}, ${compUserInputs.q2}\n回傳格式：encouragement, knowledgePoints (Array), writingSuggestions。`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const payload = { contents: [{ parts: [{ text: guidePrompt }] }], generationConfig: { responseMimeType: "application/json" } };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>try {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>const resultText = await callGeminiAPI(payload);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setStudyGuide(JSON.parse(resultText));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>setTimeout(() =&gt; window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 100);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} catch (err) { console.error(err); } finally { setIsGeneratingGuide(false); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const subjectIcons = { development: "🌱", philosophy: "🏛️", curriculum: "📚" };</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen flex flex-col pb-12"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;Countdown onOpenSettings={() =&gt; setIsSettingsOpen(true)} /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;ApiKeyModal isOpen={isSettingsOpen} onClose={() =&gt; setIsSettingsOpen(false)} apiKey={apiKey} setApiKey={setApiKey} /&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;main className="flex-grow container mx-auto px-4 py-10 max-w-4xl"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{!examData &amp;&amp; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;header className="mb-10 text-center animate-fade-in-up"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="inline-block p-3 bg-white rounded-2xl shadow-sm border border-slate-100 mb-4 text-4xl"&gt;🎓&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-700 mb-3 tracking-tight"&gt;國家級教檢模擬系統&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;p className="text-slate-500 font-medium tracking-wide"&gt;AI 命題委員 ✕ 智能閱卷 ✕ 專屬學習指引&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{!apiKey &amp;&amp; &lt;div className="mt-4 text-rose-500 text-sm font-bold bg-rose-50 px-4 py-2 rounded-full inline-block"&gt;⚠️ 請先點擊右上角設定 API Key&lt;/div&gt;}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/header&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>)}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{examData &amp;&amp; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;header className="mb-10 text-center animate-fade-in-up"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="inline-flex items-center justify-center space-x-3 bg-white px-6 py-2 rounded-full shadow-sm border border-slate-200 mb-6"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;span className="text-2xl"&gt;{subjectIcons[selectedSubjectId]}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h1 className="text-xl font-bold text-slate-800"&gt;{SUBJECTS[selectedSubjectId].name}&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/header&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>)}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{!examData &amp;&amp; !isLoading &amp;&amp; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="glass-card rounded-3xl p-8 sm:p-12 shadow-xl border-t-white text-center animate-fade-in-up relative overflow-hidden"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h2 className="text-2xl font-bold mb-8 text-slate-800 relative z-10"&gt;請選擇您的挑戰科目&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="mb-10 grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{Object.values(SUBJECTS).map(subject =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>const isSelected = selectedSubjectId === subject.id;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;label key={subject.id} className={`flex flex-col items-center justify-center p-6 rounded-2xl cursor-pointer transition-all duration-300 ${isSelected ? 'border-2 border-indigo-500 bg-indigo-50/80 shadow-md transform -translate-y-1' : 'border border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50'}`}&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;input type="radio" name="subject" value={subject.id} checked={isSelected} onChange={() =&gt; setSelectedSubjectId(subject.id)} className="sr-only" /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;span className="text-4xl mb-3"&gt;{subjectIcons[subject.id]}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;span className={`font-bold text-center leading-snug ${isSelected ? 'text-indigo-800' : 'text-slate-600'}`}&gt;{subject.name.replace('國民小學：', '')}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>})}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button onClick={generateExam} className="mx-auto px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-lg rounded-2xl shadow-lg transition-all flex items-center space-x-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;RefreshIcon /&gt;&lt;span&gt;立即生成專屬試卷&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{error &amp;&amp; &lt;p className="text-rose-500 mt-6 font-medium bg-rose-50 py-2 px-4 rounded-lg inline-block"&gt;{error}&lt;/p&gt;}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>)}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{isLoading &amp;&amp; &lt;div className="glass-card rounded-3xl flex flex-col items-center justify-center py-32 space-y-8 animate-pulse shadow-xl"&gt;&lt;div className="w-16 h-16 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin"&gt;&lt;/div&gt;&lt;div className="text-indigo-800 font-bold text-lg tracking-wide"&gt;命題委員正在為您精心編製高難度試卷...&lt;/div&gt;&lt;/div&gt;}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{examData &amp;&amp; !isLoading &amp;&amp; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="space-y-10 animate-fade-in-up"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;section&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="text-2xl font-bold text-slate-800 mb-6 pl-2 border-l-4 border-blue-600"&gt;一、選擇題 (10 題)&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-6"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>{examData.mcqs.map((q, qIndex) =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div key={qIndex} className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="flex items-start gap-4 mb-6"&gt;&lt;span className="bg-blue-100 text-indigo-800 font-black text-lg w-10 h-10 flex items-center justify-center rounded-2xl shrink-0"&gt;{qIndex + 1}&lt;/span&gt;&lt;h4 className="text-lg font-semibold leading-relaxed pt-1"&gt;{q.question}&lt;/h4&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="space-y-3 sm:pl-14"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{q.options.map((opt, oIndex) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>const isSelected = userAnswers[qIndex] === oIndex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>const isCorrect = isSubmitted &amp;&amp; q.correctAnswerIndex === oIndex;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>const isWrong = isSubmitted &amp;&amp; isSelected &amp;&amp; !isCorrect;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;div key={oIndex} onClick={() =&gt; !isSubmitted &amp;&amp; setUserAnswers(prev =&gt; {const a = [...prev]; a[qIndex]=oIndex; return a;})} className={`flex items-center p-4 border rounded-2xl transition-all ${isSubmitted ? 'cursor-default ' + (isCorrect ? 'border-emerald-400 bg-emerald-50' : isWrong ? 'border-rose-400 bg-rose-50' : 'opacity-60') : (isSelected ? 'border-blue-500 bg-blue-50' : 'hover:bg-slate-50 cursor-pointer')}`}&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                </span>&lt;span className="font-bold mr-2 text-slate-400"&gt;({['A','B','C','D'][oIndex]})&lt;/span&gt;&lt;span&gt;{opt}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>})}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>{isSubmitted &amp;&amp; &lt;div className="mt-6 sm:ml-14 p-5 rounded-2xl bg-slate-50 border border-slate-200"&gt;&lt;p className="text-sm"&gt;&lt;strong&gt;詳解：&lt;/strong&gt;{q.explanation}&lt;/p&gt;&lt;/div&gt;}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>))}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/section&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;section className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="text-2xl font-bold text-slate-800 mb-6 border-l-4 border-indigo-600 pl-2"&gt;二、綜合題&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="bg-slate-50 p-6 rounded-2xl mb-8 leading-relaxed text-lg"&gt;{examData.comprehensive.scenario}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>{[1, 2].map(i =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div key={i}&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;h5 className="font-bold mb-3 text-lg"&gt;({i}) {examData.comprehensive[`subQuestion${i}`]}&lt;/h5&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;textarea value={compUserInputs[`q${i}`]} onChange={e =&gt; setCompUserInputs(p =&gt; ({...p, [`q${i}`]: e.target.value}))} disabled={isSubmitted} className="w-full border-2 rounded-2xl p-5 min-h-[140px] focus:ring-4 focus:ring-indigo-100 outline-none" placeholder="輸入作答..." /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>))}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{isSubmitted &amp;&amp; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="mt-10 pt-10 border-t-2 border-dashed border-slate-200"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="p-6 bg-slate-50 rounded-2xl mb-8"&gt;&lt;strong&gt;參考解答：&lt;/strong&gt;&lt;br/&gt;1. {examData.comprehensive.answer1}&lt;br/&gt;&lt;br/&gt;2. {examData.comprehensive.answer2}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>{!compGradeResult &amp;&amp; &lt;button onClick={handleGradeComp} disabled={isGrading} className="mx-auto px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-lg flex items-center space-x-2"&gt;{isGrading ? "批改中..." : "✨ 呼叫 AI 批改"}&lt;/button&gt;}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>{compGradeResult &amp;&amp; &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>{['q1', 'q2'].map((k, idx) =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;div key={k} className="p-6 bg-indigo-50 rounded-2xl border border-indigo-100"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;h6 className="font-bold mb-2"&gt;子題({idx+1}) 得分：{compGradeResult[k].score}/10&lt;/h6&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;p className="text-sm"&gt;&lt;strong&gt;建議：&lt;/strong&gt;{compGradeResult[k].suggestion}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>))}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/section&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="flex justify-center gap-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{!isSubmitted ? &lt;button onClick={handleSubmit} className="px-12 py-5 bg-blue-600 text-white font-black text-xl rounded-2xl shadow-xl"&gt;確認繳交試卷&lt;/button&gt; : &lt;button onClick={() =&gt; {setExamData(null); window.scrollTo({top:0, behavior:'smooth'});}} className="px-8 py-4 bg-slate-800 text-white font-bold rounded-2xl"&gt;回首頁&lt;/button&gt;}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/main&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const root = ReactDOM.createRoot(document.getElementById('root'));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>root.render(&lt;App /&gt;);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- SVG Icons ---
+        const ClockIcon = () => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        );
+        const RefreshIcon = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.81-6.63L3 8"/><path d="M3 8V2h6"/></svg>
+        );
+        const CheckCircleIcon = () => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        );
+        const XCircleIcon = () => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        );
+        const SettingsIcon = () => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        );
+
+        // --- API Key Modal Component ---
+        const ApiKeyModal = ({ isOpen, onClose, apiKey, setApiKey }) => {
+            const [inputValue, setInputValue] = useState(apiKey);
+
+            if (!isOpen) return null;
+
+            const handleSave = () => {
+                setApiKey(inputValue);
+                localStorage.setItem('gemini_api_key', inputValue);
+                onClose();
+            };
+
+            return (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full border border-slate-200">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-2xl font-bold text-slate-800 flex items-center">
+                                <span className="mr-2 text-indigo-500"><SettingsIcon /></span>
+                                API 設定
+                            </h3>
+                            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">✕</button>
+                        </div>
+                        <p className="text-slate-600 mb-6 text-sm leading-relaxed">
+                            本系統使用 Google Gemini API 進行命題。請前往 <a href="https://aistudio.google.com/app/apikey" target="_blank" className="text-blue-600 underline hover:text-blue-800">Google AI Studio</a> 免費申請 API Key 並貼於下方。
+                            您的 Key 將儲存在本機瀏覽器，不會傳送給開發者。
+                        </p>
+                        <div className="mb-8">
+                            <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Gemini API Key</label>
+                            <input 
+                                type="password" 
+                                className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl focus:border-indigo-500 focus:bg-white outline-none transition-all font-mono text-sm"
+                                placeholder="貼上您的 API Key..."
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex gap-3">
+                            <button 
+                                onClick={handleSave}
+                                className="flex-1 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-lg transition-all"
+                            >
+                                儲存設定
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Countdown Component ---
+        const Countdown = ({ onOpenSettings }) => {
+            const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+            useEffect(() => {
+                const calculateTimeLeft = () => {
+                    const now = new Date();
+                    let targetDate = new Date(now.getFullYear(), 5, 14); 
+                    if (now > targetDate) targetDate = new Date(now.getFullYear() + 1, 5, 14);
+                    const difference = targetDate - now;
+                    if (difference > 0) {
+                        setTimeLeft({
+                            days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                            hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                            minutes: Math.floor((difference / 1000 / 60) % 60),
+                            seconds: Math.floor((difference / 1000) % 60)
+                        });
+                    }
+                };
+                calculateTimeLeft();
+                const timer = setInterval(calculateTimeLeft, 1000);
+                return () => clearInterval(timer);
+            }, []);
+
+            return (
+                <div className="bg-slate-900/95 backdrop-blur-md text-white py-3 px-4 shadow-lg flex items-center justify-between sticky top-0 z-50 border-b border-slate-700">
+                    <div className="flex items-center space-x-2 text-indigo-300">
+                        <ClockIcon />
+                        <span className="hidden sm:inline font-bold tracking-wider text-xs">距離 6/14 考試</span>
+                    </div>
+                    <div className="flex space-x-2 sm:space-x-3 text-lg font-mono font-bold">
+                        <div className="flex flex-col items-center"><span className="bg-slate-800 border border-slate-700 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm">{timeLeft.days}</span><span className="text-[9px] text-slate-400 mt-0.5">天</span></div>
+                        <div className="flex flex-col items-center"><span className="bg-slate-800 border border-slate-700 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm">{String(timeLeft.hours).padStart(2, '0')}</span><span className="text-[9px] text-slate-400 mt-0.5">時</span></div>
+                        <div className="flex flex-col items-center"><span className="bg-slate-800 border border-slate-700 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm">{String(timeLeft.minutes).padStart(2, '0')}</span><span className="text-[9px] text-slate-400 mt-0.5">分</span></div>
+                        <div className="flex flex-col items-center"><span className="text-indigo-400 bg-slate-800 border border-indigo-900/50 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm">{String(timeLeft.seconds).padStart(2, '0')}</span><span className="text-[9px] text-indigo-400/70 mt-0.5">秒</span></div>
+                    </div>
+                    <button 
+                        onClick={onOpenSettings}
+                        className="p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400 hover:text-white"
+                        title="API 設定"
+                    >
+                        <SettingsIcon />
+                    </button>
+                </div>
+            );
+        };
+
+        // --- 科目設定 ---
+        const SUBJECTS = {
+            development: {
+                id: 'development',
+                name: '國民小學：學習者發展與適性輔導',
+                prompt: `... (Prompt Same as Previous) ...`
+            },
+            philosophy: {
+                id: 'philosophy',
+                name: '國民小學：教育理念與實務',
+                prompt: `... (Prompt Same as Previous) ...`
+            },
+            curriculum: {
+                id: 'curriculum',
+                name: '國民小學：課程教學與評量',
+                prompt: `... (Prompt Same as Previous) ...`
+            }
+        };
+
+        // --- Main Application ---
+        const App = () => {
+            const [selectedSubjectId, setSelectedSubjectId] = useState('development');
+            const [examData, setExamData] = useState(null);
+            const [isLoading, setIsLoading] = useState(false);
+            const [error, setError] = useState(null);
+            
+            // --- API Key 狀態 ---
+            const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || "");
+            const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+            const [userAnswers, setUserAnswers] = useState(Array(10).fill(null));
+            const [isSubmitted, setIsSubmitted] = useState(false);
+            const [compUserInputs, setCompUserInputs] = useState({ q1: "", q2: "" });
+            const [isGrading, setIsGrading] = useState(false);
+            const [compGradeResult, setCompGradeResult] = useState(null);
+            const [mnemonics, setMnemonics] = useState({});
+            const [generatingMnemonics, setGeneratingMnemonics] = useState({});
+            const [studyGuide, setStudyGuide] = useState(null);
+            const [isGeneratingGuide, setIsGeneratingGuide] = useState(false);
+
+            // 通用 Gemini API 呼叫函式
+            const callGeminiAPI = async (payload) => {
+                if (!apiKey) {
+                    setIsSettingsOpen(true);
+                    throw new Error("請先設定 Gemini API Key。");
+                }
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                const delays = [1000, 2000, 4000, 8000, 16000];
+                for (let i = 0; i < 5; i++) {
+                    try {
+                        const response = await fetch(url, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(payload)
+                        });
+                        if (response.status === 403 || response.status === 401) {
+                            setIsSettingsOpen(true);
+                            throw new Error("API Key 無效或無權限，請重新檢查。");
+                        }
+                        if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                        const data = await response.json();
+                        const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                        if (!resultText) throw new Error("無效的回傳格式");
+                        return resultText;
+                    } catch (err) {
+                        if (i === 4 || err.message.includes("API Key")) throw err;
+                        await new Promise(res => setTimeout(res, delays[i]));
+                    }
+                }
+            };
+
+            const generateExam = async () => {
+                if (!apiKey) {
+                    setIsSettingsOpen(true);
+                    return;
+                }
+                setIsLoading(true);
+                setError(null);
+                setExamData(null);
+                setUserAnswers(Array(10).fill(null));
+                setIsSubmitted(false);
+                setCompUserInputs({ q1: "", q2: "" });
+                setCompGradeResult(null);
+                setMnemonics({});
+                setGeneratingMnemonics({});
+                setStudyGuide(null);
+
+                const currentSubject = SUBJECTS[selectedSubjectId];
+                const payload = {
+                    systemInstruction: { parts: [{ text: currentSubject.prompt }] },
+                    contents: [{ parts: [{ text: `請立刻生成一份包含 10 題選擇題與 1 題綜合題的教檢模擬試卷（科目：${currentSubject.name}）。請依照指定的 JSON Schema 格式回傳。` }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                mcqs: { type: "ARRAY", items: { type: "OBJECT", properties: { question: { type: "STRING" }, options: { type: "ARRAY", items: { type: "STRING" } }, correctAnswerIndex: { type: "INTEGER" }, explanation: { type: "STRING" } }, required: ["question", "options", "correctAnswerIndex", "explanation"] } },
+                                comprehensive: { type: "OBJECT", properties: { scenario: { type: "STRING" }, subQuestion1: { type: "STRING" }, subQuestion2: { type: "STRING" }, answer1: { type: "STRING" }, answer2: { type: "STRING" } }, required: ["scenario", "subQuestion1", "subQuestion2", "answer1", "answer2"] }
+                            },
+                            required: ["mcqs", "comprehensive"]
+                        }
+                    }
+                };
+
+                try {
+                    const resultText = await callGeminiAPI(payload);
+                    setExamData(JSON.parse(resultText));
+                } catch (err) {
+                    setError(err.message);
+                } finally { setIsLoading(false); }
+            };
+
+            const handleSubmit = () => {
+                const unanswered = userAnswers.filter(a => a === null).length;
+                if (unanswered > 0 && !window.confirm(`還有 ${unanswered} 題選擇題未作答，確定要繳交嗎？`)) return;
+                setIsSubmitted(true);
+                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+            };
+
+            const handleGenerateMnemonic = async (qIndex) => {
+                setGeneratingMnemonics(prev => ({ ...prev, [qIndex]: true }));
+                const q = examData.mcqs[qIndex];
+                const currentSubject = SUBJECTS[selectedSubjectId];
+                const payload = { contents: [{ parts: [{ text: `這是一題台灣教檢「${currentSubject.name}」的考題：\n題目：${q.question}\n解答與解析：${q.explanation}\n\n請設計一個「✨ 簡單直白的記憶口訣」或「生動的聯想記憶法」，50-100 字內幫助考生記憶。` }] }] };
+                try {
+                    const resultText = await callGeminiAPI(payload);
+                    setMnemonics(prev => ({ ...prev, [qIndex]: resultText }));
+                } catch (err) { console.error(err); } finally { setGeneratingMnemonics(prev => ({ ...prev, [qIndex]: false })); }
+            };
+
+            const handleGradeComp = async () => {
+                if (!compUserInputs.q1.trim() && !compUserInputs.q2.trim()) return alert("請先填寫作答內容。");
+                setIsGrading(true);
+                const comp = examData.comprehensive;
+                const gradingPrompt = `你是一位嚴格的台灣教檢閱卷委員。請針對「子題一」與「子題二」分別評分（滿分10分）。\n情境：${comp.scenario}\n子題一題目：${comp.subQuestion1}\n考生作答：${compUserInputs.q1}\n標準答案：${comp.answer1}\n\n子題二題目：${comp.subQuestion2}\n考生作答：${compUserInputs.q2}\n標準答案：${comp.answer2}\n請以 JSON 回傳分開的評分 q1, q2 (score, praise, critique, suggestion)。`;
+                const payload = { contents: [{ parts: [{ text: gradingPrompt }] }], generationConfig: { responseMimeType: "application/json" } };
+                try {
+                    const resultText = await callGeminiAPI(payload);
+                    setCompGradeResult(JSON.parse(resultText));
+                } catch (err) { console.error(err); } finally { setIsGrading(false); }
+            };
+
+            const handleGenerateStudyGuide = async () => {
+                setIsGeneratingGuide(true);
+                let correctCount = userAnswers.filter((a, i) => a === examData.mcqs[i].correctAnswerIndex).length;
+                let wrongExps = examData.mcqs.filter((q, i) => userAnswers[i] !== q.correctAnswerIndex).map(q => q.explanation);
+                const guidePrompt = `根據表現提供學習指引 JSON：\n選擇題對：${correctCount}/10\n錯題概念：${wrongExps.join('|')}\n綜合題作答：${compUserInputs.q1}, ${compUserInputs.q2}\n回傳格式：encouragement, knowledgePoints (Array), writingSuggestions。`;
+                const payload = { contents: [{ parts: [{ text: guidePrompt }] }], generationConfig: { responseMimeType: "application/json" } };
+                try {
+                    const resultText = await callGeminiAPI(payload);
+                    setStudyGuide(JSON.parse(resultText));
+                    setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 100);
+                } catch (err) { console.error(err); } finally { setIsGeneratingGuide(false); }
+            };
+
+            const subjectIcons = { development: "🌱", philosophy: "🏛️", curriculum: "📚" };
+
+            return (
+                <div className="min-h-screen flex flex-col pb-12">
+                    <Countdown onOpenSettings={() => setIsSettingsOpen(true)} />
+                    <ApiKeyModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} apiKey={apiKey} setApiKey={setApiKey} />
+                    
+                    <main className="flex-grow container mx-auto px-4 py-10 max-w-4xl">
+                        {!examData && (
+                            <header className="mb-10 text-center animate-fade-in-up">
+                                <div className="inline-block p-3 bg-white rounded-2xl shadow-sm border border-slate-100 mb-4 text-4xl">🎓</div>
+                                <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-700 mb-3 tracking-tight">國家級教檢模擬系統</h1>
+                                <p className="text-slate-500 font-medium tracking-wide">AI 命題委員 ✕ 智能閱卷 ✕ 專屬學習指引</p>
+                                {!apiKey && <div className="mt-4 text-rose-500 text-sm font-bold bg-rose-50 px-4 py-2 rounded-full inline-block">⚠️ 請先點擊右上角設定 API Key</div>}
+                            </header>
+                        )}
+
+                        {examData && (
+                            <header className="mb-10 text-center animate-fade-in-up">
+                                <div className="inline-flex items-center justify-center space-x-3 bg-white px-6 py-2 rounded-full shadow-sm border border-slate-200 mb-6">
+                                    <span className="text-2xl">{subjectIcons[selectedSubjectId]}</span>
+                                    <h1 className="text-xl font-bold text-slate-800">{SUBJECTS[selectedSubjectId].name}</h1>
+                                </div>
+                            </header>
+                        )}
+
+                        {!examData && !isLoading && (
+                            <div className="glass-card rounded-3xl p-8 sm:p-12 shadow-xl border-t-white text-center animate-fade-in-up relative overflow-hidden">
+                                <h2 className="text-2xl font-bold mb-8 text-slate-800 relative z-10">請選擇您的挑戰科目</h2>
+                                <div className="mb-10 grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10">
+                                    {Object.values(SUBJECTS).map(subject => {
+                                        const isSelected = selectedSubjectId === subject.id;
+                                        return (
+                                            <label key={subject.id} className={`flex flex-col items-center justify-center p-6 rounded-2xl cursor-pointer transition-all duration-300 ${isSelected ? 'border-2 border-indigo-500 bg-indigo-50/80 shadow-md transform -translate-y-1' : 'border border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50'}`}>
+                                                <input type="radio" name="subject" value={subject.id} checked={isSelected} onChange={() => setSelectedSubjectId(subject.id)} className="sr-only" />
+                                                <span className="text-4xl mb-3">{subjectIcons[subject.id]}</span>
+                                                <span className={`font-bold text-center leading-snug ${isSelected ? 'text-indigo-800' : 'text-slate-600'}`}>{subject.name.replace('國民小學：', '')}</span>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                                <button onClick={generateExam} className="mx-auto px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-lg rounded-2xl shadow-lg transition-all flex items-center space-x-3">
+                                    <RefreshIcon /><span>立即生成專屬試卷</span>
+                                </button>
+                                {error && <p className="text-rose-500 mt-6 font-medium bg-rose-50 py-2 px-4 rounded-lg inline-block">{error}</p>}
+                            </div>
+                        )}
+
+                        {isLoading && <div className="glass-card rounded-3xl flex flex-col items-center justify-center py-32 space-y-8 animate-pulse shadow-xl"><div className="w-16 h-16 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin"></div><div className="text-indigo-800 font-bold text-lg tracking-wide">命題委員正在為您精心編製高難度試卷...</div></div>}
+
+                        {examData && !isLoading && (
+                            <div className="space-y-10 animate-fade-in-up">
+                                <section>
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-6 pl-2 border-l-4 border-blue-600">一、選擇題 (10 題)</h3>
+                                    <div className="space-y-6">
+                                        {examData.mcqs.map((q, qIndex) => (
+                                            <div key={qIndex} className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60">
+                                                <div className="flex items-start gap-4 mb-6"><span className="bg-blue-100 text-indigo-800 font-black text-lg w-10 h-10 flex items-center justify-center rounded-2xl shrink-0">{qIndex + 1}</span><h4 className="text-lg font-semibold leading-relaxed pt-1">{q.question}</h4></div>
+                                                <div className="space-y-3 sm:pl-14">
+                                                    {q.options.map((opt, oIndex) => {
+                                                        const isSelected = userAnswers[qIndex] === oIndex;
+                                                        const isCorrect = isSubmitted && q.correctAnswerIndex === oIndex;
+                                                        const isWrong = isSubmitted && isSelected && !isCorrect;
+                                                        return (
+                                                            <div key={oIndex} onClick={() => !isSubmitted && setUserAnswers(prev => {const a = [...prev]; a[qIndex]=oIndex; return a;})} className={`flex items-center p-4 border rounded-2xl transition-all ${isSubmitted ? 'cursor-default ' + (isCorrect ? 'border-emerald-400 bg-emerald-50' : isWrong ? 'border-rose-400 bg-rose-50' : 'opacity-60') : (isSelected ? 'border-blue-500 bg-blue-50' : 'hover:bg-slate-50 cursor-pointer')}`}>
+                                                                <span className="font-bold mr-2 text-slate-400">({['A','B','C','D'][oIndex]})</span><span>{opt}</span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                                {isSubmitted && <div className="mt-6 sm:ml-14 p-5 rounded-2xl bg-slate-50 border border-slate-200"><p className="text-sm"><strong>詳解：</strong>{q.explanation}</p></div>}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                                <section className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60">
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-6 border-l-4 border-indigo-600 pl-2">二、綜合題</h3>
+                                    <div className="bg-slate-50 p-6 rounded-2xl mb-8 leading-relaxed text-lg">{examData.comprehensive.scenario}</div>
+                                    <div className="space-y-8">
+                                        {[1, 2].map(i => (
+                                            <div key={i}>
+                                                <h5 className="font-bold mb-3 text-lg">({i}) {examData.comprehensive[`subQuestion${i}`]}</h5>
+                                                <textarea value={compUserInputs[`q${i}`]} onChange={e => setCompUserInputs(p => ({...p, [`q${i}`]: e.target.value}))} disabled={isSubmitted} className="w-full border-2 rounded-2xl p-5 min-h-[140px] focus:ring-4 focus:ring-indigo-100 outline-none" placeholder="輸入作答..." />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    {isSubmitted && (
+                                        <div className="mt-10 pt-10 border-t-2 border-dashed border-slate-200">
+                                            <div className="p-6 bg-slate-50 rounded-2xl mb-8"><strong>參考解答：</strong><br/>1. {examData.comprehensive.answer1}<br/><br/>2. {examData.comprehensive.answer2}</div>
+                                            {!compGradeResult && <button onClick={handleGradeComp} disabled={isGrading} className="mx-auto px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-lg flex items-center space-x-2">{isGrading ? "批改中..." : "✨ 呼叫 AI 批改"}</button>}
+                                            {compGradeResult && <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {['q1', 'q2'].map((k, idx) => (
+                                                    <div key={k} className="p-6 bg-indigo-50 rounded-2xl border border-indigo-100">
+                                                        <h6 className="font-bold mb-2">子題({idx+1}) 得分：{compGradeResult[k].score}/10</h6>
+                                                        <p className="text-sm"><strong>建議：</strong>{compGradeResult[k].suggestion}</p>
+                                                    </div>
+                                                ))}
+                                            </div>}
+                                        </div>
+                                    )}
+                                </section>
+                                <div className="flex justify-center gap-4">
+                                    {!isSubmitted ? <button onClick={handleSubmit} className="px-12 py-5 bg-blue-600 text-white font-black text-xl rounded-2xl shadow-xl">確認繳交試卷</button> : <button onClick={() => {setExamData(null); window.scrollTo({top:0, behavior:'smooth'});}} className="px-8 py-4 bg-slate-800 text-white font-bold rounded-2xl">回首頁</button>}
+                                </div>
+                            </div>
+                        )}
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
