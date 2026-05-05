@@ -1,0 +1,448 @@
+{\rtf1\ansi\ansicpg950\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="zh-TW">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>\uc0\u25945 \u27298 \u27169 \u25836 \u32771 \u38988 \u29983 \u25104 \u31995 \u32113 </title>\
+    <!-- \uc0\u24341 \u20837  Noto Sans TC \u23383 \u39636 \u35731 \u25490 \u29256 \u26356 \u20855 \u29694 \u20195 \u24863 \u33287 \u21487 \u35712 \u24615  -->\
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">\
+    <!-- React & ReactDOM -->\
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>\
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>\
+    <!-- Babel for JSX -->\
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>\
+    <!-- Tailwind CSS -->\
+    <script src="https://cdn.tailwindcss.com"></script>\
+    <style>\
+        body \{ \
+            font-family: 'Noto Sans TC', 'PingFang TC', 'Heiti TC', sans-serif; \
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);\
+            color: #1e293b;\
+            min-height: 100vh;\
+        \}\
+        ::-webkit-scrollbar \{\
+            width: 10px;\
+        \}\
+        ::-webkit-scrollbar-track \{\
+            background: transparent; \
+        \}\
+        ::-webkit-scrollbar-thumb \{\
+            background: #cbd5e1; \
+            border-radius: 8px;\
+            border: 2px solid #f8fafc;\
+        \}\
+        ::-webkit-scrollbar-thumb:hover \{\
+            background: #94a3b8; \
+        \}\
+        .glass-card \{\
+            background: rgba(255, 255, 255, 0.7);\
+            backdrop-filter: blur(12px);\
+            -webkit-backdrop-filter: blur(12px);\
+            border: 1px solid rgba(255, 255, 255, 0.5);\
+        \}\
+        @keyframes fadeIn \{\
+            from \{ opacity: 0; transform: translateY(10px); \}\
+            to \{ opacity: 1; transform: translateY(0); \}\
+        \}\
+        .animate-fade-in-up \{\
+            animation: fadeIn 0.5s ease-out forwards;\
+        \}\
+    </style>\
+</head>\
+<body>\
+    <div id="root"></div>\
+\
+    <script type="text/babel">\
+        const \{ useState, useEffect, useRef \} = React;\
+\
+        // --- SVG Icons ---\
+        const ClockIcon = () => (\
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>\
+        );\
+        const RefreshIcon = (\{ className \}) => (\
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className=\{className\}><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 1 0 2.81-6.63L3 8"/><path d="M3 8V2h6"/></svg>\
+        );\
+        const CheckCircleIcon = () => (\
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>\
+        );\
+        const XCircleIcon = () => (\
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>\
+        );\
+        const SettingsIcon = () => (\
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>\
+        );\
+\
+        // --- API Key Modal Component ---\
+        const ApiKeyModal = (\{ isOpen, onClose, apiKey, setApiKey \}) => \{\
+            const [inputValue, setInputValue] = useState(apiKey);\
+\
+            if (!isOpen) return null;\
+\
+            const handleSave = () => \{\
+                setApiKey(inputValue);\
+                localStorage.setItem('gemini_api_key', inputValue);\
+                onClose();\
+            \};\
+\
+            return (\
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in">\
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full border border-slate-200">\
+                        <div className="flex items-center justify-between mb-6">\
+                            <h3 className="text-2xl font-bold text-slate-800 flex items-center">\
+                                <span className="mr-2 text-indigo-500"><SettingsIcon /></span>\
+                                API \uc0\u35373 \u23450 \
+                            </h3>\
+                            <button onClick=\{onClose\} className="text-slate-400 hover:text-slate-600 transition-colors">\uc0\u10005 </button>\
+                        </div>\
+                        <p className="text-slate-600 mb-6 text-sm leading-relaxed">\
+                            \uc0\u26412 \u31995 \u32113 \u20351 \u29992  Google Gemini API \u36914 \u34892 \u21629 \u38988 \u12290 \u35531 \u21069 \u24448  <a href="https://aistudio.google.com/app/apikey" target="_blank" className="text-blue-600 underline hover:text-blue-800">Google AI Studio</a> \u20813 \u36027 \u30003 \u35531  API Key \u20006 \u36028 \u26044 \u19979 \u26041 \u12290 \
+                            \uc0\u24744 \u30340  Key \u23559 \u20786 \u23384 \u22312 \u26412 \u27231 \u28687 \u35261 \u22120 \u65292 \u19981 \u26371 \u20659 \u36865 \u32102 \u38283 \u30332 \u32773 \u12290 \
+                        </p>\
+                        <div className="mb-8">\
+                            <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Gemini API Key</label>\
+                            <input \
+                                type="password" \
+                                className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-100 rounded-xl focus:border-indigo-500 focus:bg-white outline-none transition-all font-mono text-sm"\
+                                placeholder="\uc0\u36028 \u19978 \u24744 \u30340  API Key..."\
+                                value=\{inputValue\}\
+                                onChange=\{(e) => setInputValue(e.target.value)\}\
+                            />\
+                        </div>\
+                        <div className="flex gap-3">\
+                            <button \
+                                onClick=\{handleSave\}\
+                                className="flex-1 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-lg transition-all"\
+                            >\
+                                \uc0\u20786 \u23384 \u35373 \u23450 \
+                            </button>\
+                        </div>\
+                    </div>\
+                </div>\
+            );\
+        \};\
+\
+        // --- Countdown Component ---\
+        const Countdown = (\{ onOpenSettings \}) => \{\
+            const [timeLeft, setTimeLeft] = useState(\{ days: 0, hours: 0, minutes: 0, seconds: 0 \});\
+\
+            useEffect(() => \{\
+                const calculateTimeLeft = () => \{\
+                    const now = new Date();\
+                    let targetDate = new Date(now.getFullYear(), 5, 14); \
+                    if (now > targetDate) targetDate = new Date(now.getFullYear() + 1, 5, 14);\
+                    const difference = targetDate - now;\
+                    if (difference > 0) \{\
+                        setTimeLeft(\{\
+                            days: Math.floor(difference / (1000 * 60 * 60 * 24)),\
+                            hours: Math.floor((difference / (1000 * 60 * 60)) % 24),\
+                            minutes: Math.floor((difference / 1000 / 60) % 60),\
+                            seconds: Math.floor((difference / 1000) % 60)\
+                        \});\
+                    \}\
+                \};\
+                calculateTimeLeft();\
+                const timer = setInterval(calculateTimeLeft, 1000);\
+                return () => clearInterval(timer);\
+            \}, []);\
+\
+            return (\
+                <div className="bg-slate-900/95 backdrop-blur-md text-white py-3 px-4 shadow-lg flex items-center justify-between sticky top-0 z-50 border-b border-slate-700">\
+                    <div className="flex items-center space-x-2 text-indigo-300">\
+                        <ClockIcon />\
+                        <span className="hidden sm:inline font-bold tracking-wider text-xs">\uc0\u36317 \u38626  6/14 \u32771 \u35430 </span>\
+                    </div>\
+                    <div className="flex space-x-2 sm:space-x-3 text-lg font-mono font-bold">\
+                        <div className="flex flex-col items-center"><span className="bg-slate-800 border border-slate-700 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm">\{timeLeft.days\}</span><span className="text-[9px] text-slate-400 mt-0.5">\uc0\u22825 </span></div>\
+                        <div className="flex flex-col items-center"><span className="bg-slate-800 border border-slate-700 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm">\{String(timeLeft.hours).padStart(2, '0')\}</span><span className="text-[9px] text-slate-400 mt-0.5">\uc0\u26178 </span></div>\
+                        <div className="flex flex-col items-center"><span className="bg-slate-800 border border-slate-700 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm">\{String(timeLeft.minutes).padStart(2, '0')\}</span><span className="text-[9px] text-slate-400 mt-0.5">\uc0\u20998 </span></div>\
+                        <div className="flex flex-col items-center"><span className="text-indigo-400 bg-slate-800 border border-indigo-900/50 px-2 py-1 rounded-lg min-w-[2.5ch] text-center text-sm">\{String(timeLeft.seconds).padStart(2, '0')\}</span><span className="text-[9px] text-indigo-400/70 mt-0.5">\uc0\u31186 </span></div>\
+                    </div>\
+                    <button \
+                        onClick=\{onOpenSettings\}\
+                        className="p-2 hover:bg-slate-800 rounded-full transition-colors text-slate-400 hover:text-white"\
+                        title="API \uc0\u35373 \u23450 "\
+                    >\
+                        <SettingsIcon />\
+                    </button>\
+                </div>\
+            );\
+        \};\
+\
+        // --- \uc0\u31185 \u30446 \u35373 \u23450  ---\
+        const SUBJECTS = \{\
+            development: \{\
+                id: 'development',\
+                name: '\uc0\u22283 \u27665 \u23567 \u23416 \u65306 \u23416 \u32722 \u32773 \u30332 \u23637 \u33287 \u36969 \u24615 \u36628 \u23566 ',\
+                prompt: `... (Prompt Same as Previous) ...`\
+            \},\
+            philosophy: \{\
+                id: 'philosophy',\
+                name: '\uc0\u22283 \u27665 \u23567 \u23416 \u65306 \u25945 \u32946 \u29702 \u24565 \u33287 \u23526 \u21209 ',\
+                prompt: `... (Prompt Same as Previous) ...`\
+            \},\
+            curriculum: \{\
+                id: 'curriculum',\
+                name: '\uc0\u22283 \u27665 \u23567 \u23416 \u65306 \u35506 \u31243 \u25945 \u23416 \u33287 \u35413 \u37327 ',\
+                prompt: `... (Prompt Same as Previous) ...`\
+            \}\
+        \};\
+\
+        // --- Main Application ---\
+        const App = () => \{\
+            const [selectedSubjectId, setSelectedSubjectId] = useState('development');\
+            const [examData, setExamData] = useState(null);\
+            const [isLoading, setIsLoading] = useState(false);\
+            const [error, setError] = useState(null);\
+            \
+            // --- API Key \uc0\u29376 \u24907  ---\
+            const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || "");\
+            const [isSettingsOpen, setIsSettingsOpen] = useState(false);\
+\
+            const [userAnswers, setUserAnswers] = useState(Array(10).fill(null));\
+            const [isSubmitted, setIsSubmitted] = useState(false);\
+            const [compUserInputs, setCompUserInputs] = useState(\{ q1: "", q2: "" \});\
+            const [isGrading, setIsGrading] = useState(false);\
+            const [compGradeResult, setCompGradeResult] = useState(null);\
+            const [mnemonics, setMnemonics] = useState(\{\});\
+            const [generatingMnemonics, setGeneratingMnemonics] = useState(\{\});\
+            const [studyGuide, setStudyGuide] = useState(null);\
+            const [isGeneratingGuide, setIsGeneratingGuide] = useState(false);\
+\
+            // \uc0\u36890 \u29992  Gemini API \u21628 \u21483 \u20989 \u24335 \
+            const callGeminiAPI = async (payload) => \{\
+                if (!apiKey) \{\
+                    setIsSettingsOpen(true);\
+                    throw new Error("\uc0\u35531 \u20808 \u35373 \u23450  Gemini API Key\u12290 ");\
+                \}\
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=$\{apiKey\}`;\
+                const delays = [1000, 2000, 4000, 8000, 16000];\
+                for (let i = 0; i < 5; i++) \{\
+                    try \{\
+                        const response = await fetch(url, \{\
+                            method: "POST",\
+                            headers: \{ "Content-Type": "application/json" \},\
+                            body: JSON.stringify(payload)\
+                        \});\
+                        if (response.status === 403 || response.status === 401) \{\
+                            setIsSettingsOpen(true);\
+                            throw new Error("API Key \uc0\u28961 \u25928 \u25110 \u28961 \u27402 \u38480 \u65292 \u35531 \u37325 \u26032 \u27298 \u26597 \u12290 ");\
+                        \}\
+                        if (!response.ok) throw new Error(`API Error: $\{response.status\}`);\
+                        const data = await response.json();\
+                        const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;\
+                        if (!resultText) throw new Error("\uc0\u28961 \u25928 \u30340 \u22238 \u20659 \u26684 \u24335 ");\
+                        return resultText;\
+                    \} catch (err) \{\
+                        if (i === 4 || err.message.includes("API Key")) throw err;\
+                        await new Promise(res => setTimeout(res, delays[i]));\
+                    \}\
+                \}\
+            \};\
+\
+            const generateExam = async () => \{\
+                if (!apiKey) \{\
+                    setIsSettingsOpen(true);\
+                    return;\
+                \}\
+                setIsLoading(true);\
+                setError(null);\
+                setExamData(null);\
+                setUserAnswers(Array(10).fill(null));\
+                setIsSubmitted(false);\
+                setCompUserInputs(\{ q1: "", q2: "" \});\
+                setCompGradeResult(null);\
+                setMnemonics(\{\});\
+                setGeneratingMnemonics(\{\});\
+                setStudyGuide(null);\
+\
+                const currentSubject = SUBJECTS[selectedSubjectId];\
+                const payload = \{\
+                    systemInstruction: \{ parts: [\{ text: currentSubject.prompt \}] \},\
+                    contents: [\{ parts: [\{ text: `\uc0\u35531 \u31435 \u21051 \u29983 \u25104 \u19968 \u20221 \u21253 \u21547  10 \u38988 \u36984 \u25799 \u38988 \u33287  1 \u38988 \u32156 \u21512 \u38988 \u30340 \u25945 \u27298 \u27169 \u25836 \u35430 \u21367 \u65288 \u31185 \u30446 \u65306 $\{currentSubject.name\}\u65289 \u12290 \u35531 \u20381 \u29031 \u25351 \u23450 \u30340  JSON Schema \u26684 \u24335 \u22238 \u20659 \u12290 ` \}] \}],\
+                    generationConfig: \{\
+                        responseMimeType: "application/json",\
+                        responseSchema: \{\
+                            type: "OBJECT",\
+                            properties: \{\
+                                mcqs: \{ type: "ARRAY", items: \{ type: "OBJECT", properties: \{ question: \{ type: "STRING" \}, options: \{ type: "ARRAY", items: \{ type: "STRING" \} \}, correctAnswerIndex: \{ type: "INTEGER" \}, explanation: \{ type: "STRING" \} \}, required: ["question", "options", "correctAnswerIndex", "explanation"] \} \},\
+                                comprehensive: \{ type: "OBJECT", properties: \{ scenario: \{ type: "STRING" \}, subQuestion1: \{ type: "STRING" \}, subQuestion2: \{ type: "STRING" \}, answer1: \{ type: "STRING" \}, answer2: \{ type: "STRING" \} \}, required: ["scenario", "subQuestion1", "subQuestion2", "answer1", "answer2"] \}\
+                            \},\
+                            required: ["mcqs", "comprehensive"]\
+                        \}\
+                    \}\
+                \};\
+\
+                try \{\
+                    const resultText = await callGeminiAPI(payload);\
+                    setExamData(JSON.parse(resultText));\
+                \} catch (err) \{\
+                    setError(err.message);\
+                \} finally \{ setIsLoading(false); \}\
+            \};\
+\
+            const handleSubmit = () => \{\
+                const unanswered = userAnswers.filter(a => a === null).length;\
+                if (unanswered > 0 && !window.confirm(`\uc0\u36996 \u26377  $\{unanswered\} \u38988 \u36984 \u25799 \u38988 \u26410 \u20316 \u31572 \u65292 \u30906 \u23450 \u35201 \u32371 \u20132 \u21966 \u65311 `)) return;\
+                setIsSubmitted(true);\
+                setTimeout(() => window.scrollTo(\{ top: 0, behavior: 'smooth' \}), 100);\
+            \};\
+\
+            const handleGenerateMnemonic = async (qIndex) => \{\
+                setGeneratingMnemonics(prev => (\{ ...prev, [qIndex]: true \}));\
+                const q = examData.mcqs[qIndex];\
+                const currentSubject = SUBJECTS[selectedSubjectId];\
+                const payload = \{ contents: [\{ parts: [\{ text: `\uc0\u36889 \u26159 \u19968 \u38988 \u21488 \u28771 \u25945 \u27298 \u12300 $\{currentSubject.name\}\u12301 \u30340 \u32771 \u38988 \u65306 \\n\u38988 \u30446 \u65306 $\{q.question\}\\n\u35299 \u31572 \u33287 \u35299 \u26512 \u65306 $\{q.explanation\}\\n\\n\u35531 \u35373 \u35336 \u19968 \u20491 \u12300 \u10024  \u31777 \u21934 \u30452 \u30333 \u30340 \u35352 \u25014 \u21475 \u35363 \u12301 \u25110 \u12300 \u29983 \u21205 \u30340 \u32879 \u24819 \u35352 \u25014 \u27861 \u12301 \u65292 50-100 \u23383 \u20839 \u24171 \u21161 \u32771 \u29983 \u35352 \u25014 \u12290 ` \}] \}] \};\
+                try \{\
+                    const resultText = await callGeminiAPI(payload);\
+                    setMnemonics(prev => (\{ ...prev, [qIndex]: resultText \}));\
+                \} catch (err) \{ console.error(err); \} finally \{ setGeneratingMnemonics(prev => (\{ ...prev, [qIndex]: false \})); \}\
+            \};\
+\
+            const handleGradeComp = async () => \{\
+                if (!compUserInputs.q1.trim() && !compUserInputs.q2.trim()) return alert("\uc0\u35531 \u20808 \u22635 \u23531 \u20316 \u31572 \u20839 \u23481 \u12290 ");\
+                setIsGrading(true);\
+                const comp = examData.comprehensive;\
+                const gradingPrompt = `\uc0\u20320 \u26159 \u19968 \u20301 \u22196 \u26684 \u30340 \u21488 \u28771 \u25945 \u27298 \u38321 \u21367 \u22996 \u21729 \u12290 \u35531 \u37341 \u23565 \u12300 \u23376 \u38988 \u19968 \u12301 \u33287 \u12300 \u23376 \u38988 \u20108 \u12301 \u20998 \u21029 \u35413 \u20998 \u65288 \u28415 \u20998 10\u20998 \u65289 \u12290 \\n\u24773 \u22659 \u65306 $\{comp.scenario\}\\n\u23376 \u38988 \u19968 \u38988 \u30446 \u65306 $\{comp.subQuestion1\}\\n\u32771 \u29983 \u20316 \u31572 \u65306 $\{compUserInputs.q1\}\\n\u27161 \u28310 \u31572 \u26696 \u65306 $\{comp.answer1\}\\n\\n\u23376 \u38988 \u20108 \u38988 \u30446 \u65306 $\{comp.subQuestion2\}\\n\u32771 \u29983 \u20316 \u31572 \u65306 $\{compUserInputs.q2\}\\n\u27161 \u28310 \u31572 \u26696 \u65306 $\{comp.answer2\}\\n\u35531 \u20197  JSON \u22238 \u20659 \u20998 \u38283 \u30340 \u35413 \u20998  q1, q2 (score, praise, critique, suggestion)\u12290 `;\
+                const payload = \{ contents: [\{ parts: [\{ text: gradingPrompt \}] \}], generationConfig: \{ responseMimeType: "application/json" \} \};\
+                try \{\
+                    const resultText = await callGeminiAPI(payload);\
+                    setCompGradeResult(JSON.parse(resultText));\
+                \} catch (err) \{ console.error(err); \} finally \{ setIsGrading(false); \}\
+            \};\
+\
+            const handleGenerateStudyGuide = async () => \{\
+                setIsGeneratingGuide(true);\
+                let correctCount = userAnswers.filter((a, i) => a === examData.mcqs[i].correctAnswerIndex).length;\
+                let wrongExps = examData.mcqs.filter((q, i) => userAnswers[i] !== q.correctAnswerIndex).map(q => q.explanation);\
+                const guidePrompt = `\uc0\u26681 \u25818 \u34920 \u29694 \u25552 \u20379 \u23416 \u32722 \u25351 \u24341  JSON\u65306 \\n\u36984 \u25799 \u38988 \u23565 \u65306 $\{correctCount\}/10\\n\u37679 \u38988 \u27010 \u24565 \u65306 $\{wrongExps.join('|')\}\\n\u32156 \u21512 \u38988 \u20316 \u31572 \u65306 $\{compUserInputs.q1\}, $\{compUserInputs.q2\}\\n\u22238 \u20659 \u26684 \u24335 \u65306 encouragement, knowledgePoints (Array), writingSuggestions\u12290 `;\
+                const payload = \{ contents: [\{ parts: [\{ text: guidePrompt \}] \}], generationConfig: \{ responseMimeType: "application/json" \} \};\
+                try \{\
+                    const resultText = await callGeminiAPI(payload);\
+                    setStudyGuide(JSON.parse(resultText));\
+                    setTimeout(() => window.scrollTo(\{ top: document.body.scrollHeight, behavior: 'smooth' \}), 100);\
+                \} catch (err) \{ console.error(err); \} finally \{ setIsGeneratingGuide(false); \}\
+            \};\
+\
+            const subjectIcons = \{ development: "\uc0\u55356 \u57137 ", philosophy: "\u55356 \u57307 \u65039 ", curriculum: "\u55357 \u56538 " \};\
+\
+            return (\
+                <div className="min-h-screen flex flex-col pb-12">\
+                    <Countdown onOpenSettings=\{() => setIsSettingsOpen(true)\} />\
+                    <ApiKeyModal isOpen=\{isSettingsOpen\} onClose=\{() => setIsSettingsOpen(false)\} apiKey=\{apiKey\} setApiKey=\{setApiKey\} />\
+                    \
+                    <main className="flex-grow container mx-auto px-4 py-10 max-w-4xl">\
+                        \{!examData && (\
+                            <header className="mb-10 text-center animate-fade-in-up">\
+                                <div className="inline-block p-3 bg-white rounded-2xl shadow-sm border border-slate-100 mb-4 text-4xl">\uc0\u55356 \u57235 </div>\
+                                <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-700 mb-3 tracking-tight">\uc0\u22283 \u23478 \u32026 \u25945 \u27298 \u27169 \u25836 \u31995 \u32113 </h1>\
+                                <p className="text-slate-500 font-medium tracking-wide">AI \uc0\u21629 \u38988 \u22996 \u21729  \u10005  \u26234 \u33021 \u38321 \u21367  \u10005  \u23560 \u23660 \u23416 \u32722 \u25351 \u24341 </p>\
+                                \{!apiKey && <div className="mt-4 text-rose-500 text-sm font-bold bg-rose-50 px-4 py-2 rounded-full inline-block">\uc0\u9888 \u65039  \u35531 \u20808 \u40670 \u25802 \u21491 \u19978 \u35282 \u35373 \u23450  API Key</div>\}\
+                            </header>\
+                        )\}\
+\
+                        \{examData && (\
+                            <header className="mb-10 text-center animate-fade-in-up">\
+                                <div className="inline-flex items-center justify-center space-x-3 bg-white px-6 py-2 rounded-full shadow-sm border border-slate-200 mb-6">\
+                                    <span className="text-2xl">\{subjectIcons[selectedSubjectId]\}</span>\
+                                    <h1 className="text-xl font-bold text-slate-800">\{SUBJECTS[selectedSubjectId].name\}</h1>\
+                                </div>\
+                            </header>\
+                        )\}\
+\
+                        \{!examData && !isLoading && (\
+                            <div className="glass-card rounded-3xl p-8 sm:p-12 shadow-xl border-t-white text-center animate-fade-in-up relative overflow-hidden">\
+                                <h2 className="text-2xl font-bold mb-8 text-slate-800 relative z-10">\uc0\u35531 \u36984 \u25799 \u24744 \u30340 \u25361 \u25136 \u31185 \u30446 </h2>\
+                                <div className="mb-10 grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10">\
+                                    \{Object.values(SUBJECTS).map(subject => \{\
+                                        const isSelected = selectedSubjectId === subject.id;\
+                                        return (\
+                                            <label key=\{subject.id\} className=\{`flex flex-col items-center justify-center p-6 rounded-2xl cursor-pointer transition-all duration-300 $\{isSelected ? 'border-2 border-indigo-500 bg-indigo-50/80 shadow-md transform -translate-y-1' : 'border border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50'\}`\}>\
+                                                <input type="radio" name="subject" value=\{subject.id\} checked=\{isSelected\} onChange=\{() => setSelectedSubjectId(subject.id)\} className="sr-only" />\
+                                                <span className="text-4xl mb-3">\{subjectIcons[subject.id]\}</span>\
+                                                <span className=\{`font-bold text-center leading-snug $\{isSelected ? 'text-indigo-800' : 'text-slate-600'\}`\}>\{subject.name.replace('\uc0\u22283 \u27665 \u23567 \u23416 \u65306 ', '')\}</span>\
+                                            </label>\
+                                        );\
+                                    \})\}\
+                                </div>\
+                                <button onClick=\{generateExam\} className="mx-auto px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-lg rounded-2xl shadow-lg transition-all flex items-center space-x-3">\
+                                    <RefreshIcon /><span>\uc0\u31435 \u21363 \u29983 \u25104 \u23560 \u23660 \u35430 \u21367 </span>\
+                                </button>\
+                                \{error && <p className="text-rose-500 mt-6 font-medium bg-rose-50 py-2 px-4 rounded-lg inline-block">\{error\}</p>\}\
+                            </div>\
+                        )\}\
+\
+                        \{isLoading && <div className="glass-card rounded-3xl flex flex-col items-center justify-center py-32 space-y-8 animate-pulse shadow-xl"><div className="w-16 h-16 border-4 border-indigo-100 border-t-indigo-600 rounded-full animate-spin"></div><div className="text-indigo-800 font-bold text-lg tracking-wide">\uc0\u21629 \u38988 \u22996 \u21729 \u27491 \u22312 \u28858 \u24744 \u31934 \u24515 \u32232 \u35069 \u39640 \u38627 \u24230 \u35430 \u21367 ...</div></div>\}\
+\
+                        \{examData && !isLoading && (\
+                            <div className="space-y-10 animate-fade-in-up">\
+                                <section>\
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-6 pl-2 border-l-4 border-blue-600">\uc0\u19968 \u12289 \u36984 \u25799 \u38988  (10 \u38988 )</h3>\
+                                    <div className="space-y-6">\
+                                        \{examData.mcqs.map((q, qIndex) => (\
+                                            <div key=\{qIndex\} className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60">\
+                                                <div className="flex items-start gap-4 mb-6"><span className="bg-blue-100 text-indigo-800 font-black text-lg w-10 h-10 flex items-center justify-center rounded-2xl shrink-0">\{qIndex + 1\}</span><h4 className="text-lg font-semibold leading-relaxed pt-1">\{q.question\}</h4></div>\
+                                                <div className="space-y-3 sm:pl-14">\
+                                                    \{q.options.map((opt, oIndex) => \{\
+                                                        const isSelected = userAnswers[qIndex] === oIndex;\
+                                                        const isCorrect = isSubmitted && q.correctAnswerIndex === oIndex;\
+                                                        const isWrong = isSubmitted && isSelected && !isCorrect;\
+                                                        return (\
+                                                            <div key=\{oIndex\} onClick=\{() => !isSubmitted && setUserAnswers(prev => \{const a = [...prev]; a[qIndex]=oIndex; return a;\})\} className=\{`flex items-center p-4 border rounded-2xl transition-all $\{isSubmitted ? 'cursor-default ' + (isCorrect ? 'border-emerald-400 bg-emerald-50' : isWrong ? 'border-rose-400 bg-rose-50' : 'opacity-60') : (isSelected ? 'border-blue-500 bg-blue-50' : 'hover:bg-slate-50 cursor-pointer')\}`\}>\
+                                                                <span className="font-bold mr-2 text-slate-400">(\{['A','B','C','D'][oIndex]\})</span><span>\{opt\}</span>\
+                                                            </div>\
+                                                        );\
+                                                    \})\}\
+                                                </div>\
+                                                \{isSubmitted && <div className="mt-6 sm:ml-14 p-5 rounded-2xl bg-slate-50 border border-slate-200"><p className="text-sm"><strong>\uc0\u35443 \u35299 \u65306 </strong>\{q.explanation\}</p></div>\}\
+                                            </div>\
+                                        ))\}\
+                                    </div>\
+                                </section>\
+                                <section className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200/60">\
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-6 border-l-4 border-indigo-600 pl-2">\uc0\u20108 \u12289 \u32156 \u21512 \u38988 </h3>\
+                                    <div className="bg-slate-50 p-6 rounded-2xl mb-8 leading-relaxed text-lg">\{examData.comprehensive.scenario\}</div>\
+                                    <div className="space-y-8">\
+                                        \{[1, 2].map(i => (\
+                                            <div key=\{i\}>\
+                                                <h5 className="font-bold mb-3 text-lg">(\{i\}) \{examData.comprehensive[`subQuestion$\{i\}`]\}</h5>\
+                                                <textarea value=\{compUserInputs[`q$\{i\}`]\} onChange=\{e => setCompUserInputs(p => (\{...p, [`q$\{i\}`]: e.target.value\}))\} disabled=\{isSubmitted\} className="w-full border-2 rounded-2xl p-5 min-h-[140px] focus:ring-4 focus:ring-indigo-100 outline-none" placeholder="\uc0\u36664 \u20837 \u20316 \u31572 ..." />\
+                                            </div>\
+                                        ))\}\
+                                    </div>\
+                                    \{isSubmitted && (\
+                                        <div className="mt-10 pt-10 border-t-2 border-dashed border-slate-200">\
+                                            <div className="p-6 bg-slate-50 rounded-2xl mb-8"><strong>\uc0\u21443 \u32771 \u35299 \u31572 \u65306 </strong><br/>1. \{examData.comprehensive.answer1\}<br/><br/>2. \{examData.comprehensive.answer2\}</div>\
+                                            \{!compGradeResult && <button onClick=\{handleGradeComp\} disabled=\{isGrading\} className="mx-auto px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-lg flex items-center space-x-2">\{isGrading ? "\uc0\u25209 \u25913 \u20013 ..." : "\u10024  \u21628 \u21483  AI \u25209 \u25913 "\}</button>\}\
+                                            \{compGradeResult && <div className="grid grid-cols-1 md:grid-cols-2 gap-4">\
+                                                \{['q1', 'q2'].map((k, idx) => (\
+                                                    <div key=\{k\} className="p-6 bg-indigo-50 rounded-2xl border border-indigo-100">\
+                                                        <h6 className="font-bold mb-2">\uc0\u23376 \u38988 (\{idx+1\}) \u24471 \u20998 \u65306 \{compGradeResult[k].score\}/10</h6>\
+                                                        <p className="text-sm"><strong>\uc0\u24314 \u35696 \u65306 </strong>\{compGradeResult[k].suggestion\}</p>\
+                                                    </div>\
+                                                ))\}\
+                                            </div>\}\
+                                        </div>\
+                                    )\}\
+                                </section>\
+                                <div className="flex justify-center gap-4">\
+                                    \{!isSubmitted ? <button onClick=\{handleSubmit\} className="px-12 py-5 bg-blue-600 text-white font-black text-xl rounded-2xl shadow-xl">\uc0\u30906 \u35469 \u32371 \u20132 \u35430 \u21367 </button> : <button onClick=\{() => \{setExamData(null); window.scrollTo(\{top:0, behavior:'smooth'\});\}\} className="px-8 py-4 bg-slate-800 text-white font-bold rounded-2xl">\u22238 \u39318 \u38913 </button>\}\
+                                </div>\
+                            </div>\
+                        )\}\
+                    </main>\
+                </div>\
+            );\
+        \};\
+\
+        const root = ReactDOM.createRoot(document.getElementById('root'));\
+        root.render(<App />);\
+    </script>\
+</body>\
+</html>}
